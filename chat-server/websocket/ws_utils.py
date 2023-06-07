@@ -2,7 +2,7 @@ from flask_socketio import  emit
 from uuid import UUID
 
 from langchain.chains import ConversationChain
-from langchain.memory import ConversationBufferMemory, RedisChatMessageHistory
+from langchain.memory import ConversationSummaryBufferMemory, RedisChatMessageHistory
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.schema import LLMResult
 from langchain.chat_models import ChatOpenAI
@@ -14,7 +14,7 @@ def get_chain(user_id,app):
     llm = ChatOpenAI(temperature=0, streaming=True)
     url = 'redis://' + redis_host + ':' + str(redis_port) + '/' + str(redis_slot)
     redis_history = RedisChatMessageHistory(session_id=user_id,url=url, ttl=redis_ttl)
-    memory = ConversationBufferMemory(chat_memory=redis_history)
+    memory = ConversationSummaryBufferMemory(chat_memory=redis_history, llm=llm, max_token_limit=500)
     chain = ConversationChain(llm=llm, memory=memory, verbose=False)
     app.socket_cache[user_id] = chain
     return chain
