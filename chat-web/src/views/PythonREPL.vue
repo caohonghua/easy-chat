@@ -16,7 +16,7 @@ export default {
     data() {
         return {
             messages: [
-                {content:'快来和我聊天吧', role: 'ChatGPT'}
+                {content:'快来和我聊聊Python编程吧', role: 'ChatGPT'}
             ],
             inputText: '',
             chatting: false,
@@ -28,11 +28,11 @@ export default {
     },
     mounted() {
         // socket.io
-        this.ws = io.connect('ws://127.0.0.1:8000/websocket', {
+        this.ws = io.connect(BASE_URL + '/websocket/python-repl', {
             query: 'user_id=' + Math.floor(Math.random()*10000) + 1
         })
         this.ws.on('connect', () => {
-            console.log('WebSocket连接成功');
+            console.log('WebSocket-python_repl连接成功');
         });
         this.ws.on('message', (data) => {
             if (data === '$$over$$') {
@@ -45,7 +45,7 @@ export default {
             this.scrollToBottom();
         });
         this.ws.on('disconnect', () => {
-            console.log('WebSocket连接断开')
+            console.log('WebSocket-python_repl连接断开')
             let length = this.messages.length;
             let content = this.messages[length-1].content;
             if (content.length === 0) {
@@ -56,66 +56,7 @@ export default {
             this.scrollToBottom();
         })
     },
-    // created() {
-    //  // WebSocket
-    //     this.ws = new WebSocket('ws://localhost:8000/websocket');
-    //     this.ws.onopen = () => {
-    //         console.log('WebSocket连接成功');
-    //     },
-    //     this.ws.onmessage = (event) => {
-    //         let data = event.data;
-    //         data = data.replace(/<br>/g, '\n');
-    //         data = data.replace(/&nbsp;/g, ' ');
-    //         if (data === '$$over$$') {
-    //             this.chatting = false;
-    //         } else {
-    //             let length = this.messages.length;
-    //             let content = this.messages[length-1].content.concat(data);
-    //             this.messages[length-1].content = content;
-    //         }
-    //         this.scrollToBottom();
-    //     },
-    //     this.ws.onerror = (error) => {
-    //         let length = this.messages.length;
-    //         let content = this.messages[length-1].content;
-    //         if (content.length === 0) {
-    //             content = '抱歉，服务器发生异常了.'
-    //             this.messages[length-1].content = content;
-    //         }
-    //         this.chatting = false;
-    //         this.scrollToBottom();
-    //     },
-    //     this.ws.onclose = () => {
-    //         console.log('WebSocket连接关闭');
-    //     }
-    // },
     methods: {
-        sendWsMessage(prompt) {
-            this.ws.send(prompt);
-        },
-        sse(prompt) {
-            const source = new EventSource('/api/chat/stream/?prompt=' + prompt);
-            source.onmessage = (event) => {
-                let data = event.data;
-                data = data.replace(/<br>/g, '\n');
-                data = data.replace(/&nbsp;/g, ' ');
-                let length = this.messages.length;
-                let content = this.messages[length-1].content.concat(data);
-                this.messages[length-1].content = content;
-                this.scrollToBottom();
-            };
-            source.onerror = (error) => {
-                let length = this.messages.length;
-                let content = this.messages[length-1].content;
-                if (content.length === 0) {
-                    content = '抱歉，服务器发生异常了.'
-                    this.messages[length-1].content = content;
-                }
-                this.chatting = false;
-                source.close();
-                this.scrollToBottom();
-            }
-        },
         sendMessage() {
             if (this.inputText && !this.chatting) {
                 this.messages.push({content: this.inputText, role: 'USER'});
@@ -123,8 +64,7 @@ export default {
                 this.messages.push(res);
                 this.scrollToBottom();
                 this.chatting = true;
-                this.sendWsMessage(this.inputText);
-                // this.sse(this.inputText);
+                this.ws.send(this.inputText);
                 this.inputText = '';
             }
         },

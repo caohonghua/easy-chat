@@ -1,9 +1,16 @@
 <script setup>
-import ChatGPT from './components/ChatGPT.vue';
+import {RouterLink, RouterView} from 'vue-router';
 </script>
 
 <template>
-    <ChatGPT />
+    <div>
+        <RouterLink to="/">Chat</RouterLink>
+        |
+        <RouterLink to="/python-repl">Python</RouterLink>
+        |
+        <RouterLink to="/meteo">Meteo</RouterLink>
+    </div>
+    <RouterView />
 </template>
 
 <style scoped>
