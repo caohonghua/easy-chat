@@ -7,7 +7,16 @@ from logger import log
 async_mode = 'gevent'
 app = Flask(__name__)
 
-socketio = SocketIO(app=app,async_mode=async_mode, logger=False,engineio_logger=False, cors_allowed_origins='*', transport='websocket')
+socketio = SocketIO(
+    app=app,
+    async_mode=async_mode,
+    logger=True,
+    engineio_logger=True, 
+    cors_allowed_origins='*',
+    transport='websocket',
+    ping_timeout=30,
+    max_connections=100
+)
 app.socket_cache={}
 app.agent_cache={}
 
