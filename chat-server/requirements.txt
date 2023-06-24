@@ -5,6 +5,7 @@ gevent>=22.10.2
 gevent-websocket>=0.10.1
 grpcio>=1.54.2
 langchain>=0.0.206
+bs4>=0.0.1
 openai>=0.27.8
 tiktoken>=0.4.0
 redis>=4.5.5
