@@ -28,11 +28,11 @@ export default {
     },
     mounted() {
         // socket.io
-        this.ws = io.connect(BASE_URL + '/websocket/python-repl', {
+        this.ws = io.connect(BASE_URL + '/repl', {
             query: 'user_id=' + Math.floor(Math.random()*10000) + 1
         })
         this.ws.on('connect', () => {
-            console.log('WebSocket-python_repl连接成功');
+            console.log('WebSocket-repl连接成功');
         });
         this.ws.on('message', (data) => {
             if (data === '$$over$$') {
@@ -45,7 +45,7 @@ export default {
             this.scrollToBottom();
         });
         this.ws.on('disconnect', () => {
-            console.log('WebSocket-python_repl连接断开')
+            console.log('WebSocket-repl连接断开')
             let length = this.messages.length;
             let content = this.messages[length-1].content;
             if (content.length === 0) {

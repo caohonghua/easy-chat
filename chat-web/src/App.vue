@@ -6,9 +6,7 @@ import {RouterLink, RouterView} from 'vue-router';
     <div>
         <RouterLink to="/">Chat</RouterLink>
         |
-        <RouterLink to="/python-repl">Python</RouterLink>
-        |
-        <RouterLink to="/meteo">Meteo</RouterLink>
+        <RouterLink to="/repl">Python</RouterLink>
     </div>
     <RouterView />
 </template>

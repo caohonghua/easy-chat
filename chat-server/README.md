@@ -36,5 +36,5 @@ export OPENAI_PROXY=127.0.0.1:7890
 6. 开启websocket服务(应用部署)
 
 ```shell
-gunicorn -D -b 0.0.0.0:8000 -n chat-server --log-level info --log-file ./run.log -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker  app:app
+gunicorn -D -b 0.0.0.0:8000 -n chat-server --log-level info --log-file ./run.log -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker main:app
 ```

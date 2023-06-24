@@ -28,7 +28,7 @@ export default {
     },
     mounted() {
         // socket.io
-        this.ws = io.connect(BASE_URL + '/websocket', {
+        this.ws = io.connect(BASE_URL + '/chat', {
             query: 'user_id=' + Math.floor(Math.random()*10000) + 1
         })
         this.ws.on('connect', () => {

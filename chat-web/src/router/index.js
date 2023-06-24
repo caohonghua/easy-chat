@@ -10,14 +10,9 @@ const router = createRouter({
             component: () => import('../views/ChatGPT.vue')
         },
         {
-            path: '/python-repl',
+            path: '/repl',
             name: 'Python REPL',
             component: () => import('../views/PythonREPL.vue')
-        },
-        {
-            path: '/meteo',
-            name: 'Meteo',
-            component: () => import('../views/Meteo.vue')
         }
     ]
 })
