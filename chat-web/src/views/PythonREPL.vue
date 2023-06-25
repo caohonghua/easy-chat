@@ -1,7 +1,7 @@
 <template>
     <div class="container" ref="messageList">
         <div v-for="(message, index) in messages" :key="index" class="messages">
-            <div :class="message.role === 'USER' ? 'msg_bg' : 'msg'" v-text="message.role + '&nbsp;:&nbsp;&nbsp;' + message.content"></div>
+            <div :class="message.role === 'USER' ? 'msg_bg' : 'msg'" v-html="this.$mdRender(message.role + ':&nbsp;&nbsp;&nbsp;' + message.content)"></div>
         </div>
     </div>
     <div class="input-box">
@@ -100,7 +100,7 @@ export default {
     text-align: left;
     padding-right: 20px;
     word-wrap: break-word;
-    white-space: pre-line;
+    /* white-space: pre-line; */
 }
 
 .msg_bg {
@@ -112,7 +112,7 @@ export default {
     background-color: #6d06d1;
     word-wrap: break-word;
     color: #fff;
-    white-space: pre-line;
+    /* white-space: pre-line; */
 }
 
 .input-box {
