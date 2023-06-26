@@ -23,7 +23,7 @@ export default {
             ws: null
         }
     },
-    beforeDestroy(){
+    beforeUnmount(){
         this.ws.disconnect();
     },
     mounted() {
@@ -71,7 +71,9 @@ export default {
         scrollToBottom() {
             this.$nextTick( () => {
                 const messageList = this.$refs.messageList;
-                messageList.scrollTop = messageList.scrollHeight;
+                if (messageList) {
+                    messageList.scrollTop = messageList.scrollHeight;
+                }
             });
         }
     }
